@@ -31,8 +31,9 @@ fun LatihanInput(
     var email by remember { mutableStateOf("") }
     var alamat by remember { mutableStateOf("") }
     var notelepon by remember { mutableStateOf("") }
-    var gender by remember { mutableStateOf("") }
-    val datGender = listOf("Laki-laki", "Perempuan")
+
+    val dataGender = listOf("Laki-laki", "Perempuan")
+    var selectedGender by remember { mutableStateOf(dataGender[0]) }
 
     var confNama by remember { mutableStateOf("") }
     var confEmail by remember { mutableStateOf("") }
@@ -51,23 +52,29 @@ fun LatihanInput(
             onValueChange = { nama = it },
             label = { Text(text = "Nama") },
             placeholder = { Text(text = "Isi Nama Anda") },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(5.dp),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
         )
 
         Text(text = "Jenis Kelamin")
-        datGender.forEach { selectedGender ->
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp)
-            ) {
-                RadioButton(
-                    selected = gender == selectedGender,
-                    onClick = { gender = selectedGender }
-                )
-                Text(text = selectedGender, modifier = Modifier.padding(start = 4.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(5.dp)
+        ) {
+            dataGender.forEach { genderOption ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                ) {
+                    RadioButton(
+                        selected = (selectedGender == genderOption),
+                        onClick = { selectedGender = genderOption }
+                    )
+                    Text(text = genderOption, modifier = Modifier.padding(start = 4.dp))
+                }
             }
         }
 
@@ -103,7 +110,7 @@ fun LatihanInput(
             confEmail = email
             confAlamat = alamat
             confNotelepon = notelepon
-            confGender = gender
+            confGender = selectedGender
         }) {
             Text(text = "Simpan")
         }
